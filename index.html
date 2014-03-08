@@ -12,11 +12,17 @@
   </script>
 
   <script type="text/x-handlebars" id="index">
+
+    <label for='session'>Session duration</label>
     {{input name='session' value=session}}
-    {{input name='break' value=break}}
-    <div id='session'></div>
     <button {{action 'startSession'}}>Start session</button>
+    </br>
+
+    <label for='break'>Break duration</label>
+    {{input name='break' value=break}}
     <button {{action 'startBreak'}}>Start break</button>
+
+    <div style='text-align: center; font-size:72px;vertical-align: middle' id='session'></div>
   </script>
 
   <script src="js/libs/jquery-1.10.2.js"></script>
