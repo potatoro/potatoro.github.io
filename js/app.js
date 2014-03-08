@@ -9,25 +9,40 @@ App.IndexRoute = Ember.Route.extend({
   }
 });
 
+var runningFlow = false;
+
 App.IndexController = Ember.ObjectController.extend({
 
   actions: {
     startSession: function() {
-      $.cookie('session-time', $('input[name="session"]').val());
-      $.cookie('break-time', $('input[name="break"]').val());
+      saveDurationsInCookies();
+      runningFlow = false;
       startTimer('session');
     },
-    startBreak: function() { startTimer('break'); }
+    startBreak: function() {
+      runningFlow = false;
+      startTimer('break');
+    },
+    startFlow: function() {
+      saveDurationsInCookies();
+      runningFlow = true;
+      startTimer('session');
+    }
   }
 
 });
 
-var defaultDurations = { session: 25, break: 5 };
+function saveDurationsInCookies() {
+  $.cookie('session-duration', $('input[name="session"]').val());
+  $.cookie('break-duration', $('input[name="break"]').val());
+}
+
 var sounds = {
   session: new Audio("sounds/sessionEnd.ogg"),
   break: new Audio("sounds/breakEnd.ogg")
 };
 
+var flowStates = { session: 'break', break: 'session' }
 var timerInterval;
 
 function startTimer(timer) {
@@ -50,13 +65,17 @@ function startTimer(timer) {
     if (seconds == 0 && minutes == 0) {
       clearInterval(timerInterval);
       sounds[timer].play();
+
+      if (runningFlow) { startTimer(flowStates[timer]); }
     }
   }, 1000);
 }
 
+var defaultDurations = { session: 25, break: 5 };
+
 function timerDuration(timer) {
-  if ($.cookie(timer + '-time')) {
-    return $.cookie(timer + '-time')
+  if ($.cookie(timer + '-duration')) {
+    return $.cookie(timer + '-duration')
   } else {
     return defaultDurations[timer];
   }
