@@ -19,13 +19,12 @@ module("Integration tests", {
 });
 
 // QUnit test case
-test("/", function() {
-  // async helper telling the application to go to the '/' route
+test("should show timer form", function() {
   visit("/");
 
   // helper waiting the application is idle before running the callback
   andThen(function() {
-    equal(find("h2").text(), "Welcome to Ember.js", "Application header is rendered");
-    equal(find("li").length, 3, "There are three items in the list");
+    equal(find("input[name='session']").val(), 25, "There is session time input");
+    equal(find("input[name='break']").val(), 5, "There is break time input");
   });
 });

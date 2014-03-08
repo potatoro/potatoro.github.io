@@ -8,17 +8,15 @@
 </head>
 <body>
   <script type="text/x-handlebars">
-    <h2>Welcome to Ember.js</h2>
-
     {{outlet}}
   </script>
 
   <script type="text/x-handlebars" id="index">
-    <ul>
-    {{#each item in model}}
-      <li>{{item}}</li>
-    {{/each}}
-    </ul>
+    {{input name='session' value=session}}
+    {{input name='break' value=break}}
+    <div id='session'></div>
+    <button {{action 'startSession'}}>Start session</button>
+    <button {{action 'startBreak'}}>Start break</button>
   </script>
 
   <script src="js/libs/jquery-1.10.2.js"></script>
