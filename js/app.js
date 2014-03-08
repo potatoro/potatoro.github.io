@@ -2,14 +2,21 @@ App = Ember.Application.create();
 
 App.IndexRoute = Ember.Route.extend({
   model: function() {
-    return { session: 25, break: 5 };
+    return {
+      session: timerDuration('session'),
+      break: timerDuration('break')
+    };
   }
 });
 
 App.IndexController = Ember.ObjectController.extend({
 
   actions: {
-    startSession: function() { startTimer('session'); },
+    startSession: function() {
+      $.cookie('session-time', $('input[name="session"]').val());
+      $.cookie('break-time', $('input[name="break"]').val());
+      startTimer('session');
+    },
     startBreak: function() { startTimer('break'); }
   }
 
@@ -36,4 +43,16 @@ function startTimer(timer) {
 
     if (seconds == 0 && minutes == 0) { clearInterval(timerInterval); }
   }, 1000);
+}
+
+function timerDuration(timer) {
+  if ($.cookie(timer + '-time')) {
+    return $.cookie(timer + '-time')
+  } else {
+    if (timer == 'session') {
+      return 25;
+    } else {
+      return 5;
+    }
+  }
 }
