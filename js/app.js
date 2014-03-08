@@ -27,6 +27,10 @@ App.IndexController = Ember.ObjectController.extend({
       saveDurationsInCookies();
       runningFlow = true;
       startTimer('session');
+    },
+    stopTimer: function() {
+      runningFlow = false;
+      stopTimer('session', true);
     }
   }
 
@@ -60,10 +64,12 @@ var sounds = {
 };
 var flowStates = { session: 'break', break: 'session' }
 
-function stopTimer(timer) {
-  clearInterval(timerInterval);
-  sounds[timer].play();
+function stopTimer(timer, no_sound) {
+  no_sound = !!no_sound
 
+  clearInterval(timerInterval);
+  if (!no_sound) { sounds[timer].play(); }
+  $('#session').text('00:00');
   if (runningFlow) { startTimer(flowStates[timer]); }
 }
 
