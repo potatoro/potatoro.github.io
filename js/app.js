@@ -22,6 +22,12 @@ App.IndexController = Ember.ObjectController.extend({
 
 });
 
+var defaultDurations = { session: 25, break: 5 };
+var sounds = {
+  session: new Audio("sounds/sessionEnd.ogg"),
+  break: new Audio("sounds/breakEnd.ogg")
+};
+
 var timerInterval;
 
 function startTimer(timer) {
@@ -41,18 +47,17 @@ function startTimer(timer) {
 
     $('#session').text(minutes + ':' + seconds);
 
-    if (seconds == 0 && minutes == 0) { clearInterval(timerInterval); }
-  }, 1000);
+    if (seconds == 0 && minutes == 0) {
+      clearInterval(timerInterval);
+      sounds[timer].play();
+    }
+  }, 10);
 }
 
 function timerDuration(timer) {
   if ($.cookie(timer + '-time')) {
     return $.cookie(timer + '-time')
   } else {
-    if (timer == 'session') {
-      return 25;
-    } else {
-      return 5;
-    }
+    return defaultDurations[timer];
   }
 }
