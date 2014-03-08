@@ -51,7 +51,7 @@ function startTimer(timer) {
       clearInterval(timerInterval);
       sounds[timer].play();
     }
-  }, 10);
+  }, 1000);
 }
 
 function timerDuration(timer) {
