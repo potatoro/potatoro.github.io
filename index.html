@@ -5,6 +5,7 @@
   <title>Potatoro App</title>
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
 </head>
 <body>
   <script type="text/x-handlebars">
@@ -12,21 +13,31 @@
   </script>
 
   <script type="text/x-handlebars" id="index">
-
-    <label for='session'>Session duration</label>
-    {{input name='session' value=session}}
-    <button {{action 'startSession'}}>Start session</button>
-    </br>
-
-    <label for='break'>Break duration</label>
-    {{input name='break' value=break}}
-    <button {{action 'startBreak'}}>Start break</button>
-
-    </br>
-    <button {{action 'startFlow'}}>Start flow</button>
-    <button {{action 'stopTimer'}}>Stop</button>
-
-    <div style='text-align: center; font-size:72px;vertical-align: middle' id='session'>00:00</div>
+    <div class='row'>
+      <div style='text-align: center;' class='hero-unit span6 offset4'>
+        <form class="form-inline">
+          <div class="input-prepend">
+            <span class="add-on">Session duration</span>
+            {{input name='session' value=session class='input-small'}}
+          </div>
+          <div class="input-prepend">
+            <span class="add-on">Break duration</span>
+            {{input name='break' value=break class='input-small'}}
+          </div>
+        </form>
+        <div class='row'>
+          <div class="btn-group span6">
+            <button class='btn btn-primary' {{action 'startSession'}}>Start session</button>
+            <button class='btn btn-warning' {{action 'startBreak'}}>Start break</button>
+            <button class='btn btn-success' {{action 'startFlow'}}>Start flow</button>
+            <button class='btn btn-danger' {{action 'stopTimer'}}>Stop</button>
+          </div>
+        </div>
+        <div class='row'>
+          <div style='font-size:72px; margin-top: 30px;' id='session'>00:00</div>
+        </div>
+      </div>
+    </div>
   </script>
 
   <script src="js/libs/jquery-1.10.2.js"></script>
