@@ -64,10 +64,6 @@ var sounds = {
   session: new Audio("sounds/sessionEnd.ogg"),
   break: new Audio("sounds/breakEnd.ogg")
 };
-var fluidSounds = {
-  session: window.fluid.beep(),
-  break: window.fluid.playSound("Basso")
-}
 var flowStates = { session: 'break', break: 'session' }
 
 function stopTimer(timer, no_sound) {
@@ -82,7 +78,13 @@ function stopTimer(timer, no_sound) {
 }
 
 function playFluidSound(timer, times) {
-  for (var i = 0; i < times; i++) { fluidSounds[timer] }
+  for (var i = 0; i < times; i++) {
+    if (timer == 'session') {
+      window.fluid.beep();
+    } else {
+      window.fluid.playSound("Basso")
+    }
+  }
 }
 
 function setTimeLeft(timer) {
