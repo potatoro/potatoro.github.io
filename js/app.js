@@ -53,7 +53,9 @@ function startTimer(timer) {
     seconds = timeLeft % 60;
     if (minutes < 10) { minutes = '0' + minutes; }
     if (seconds < 10) { seconds = '0' + seconds; }
-    $('#session').text(minutes + ':' + seconds);
+    timeLeftText = minutes + ':' + seconds;
+    $('#session').text(timeLeftText);
+    if (window.fluid) { window.fluid.dockBadge = timeLeftText }
     if (timeLeft == 0) { stopTimer(timer); }
   }, 1000);
 }
@@ -62,15 +64,25 @@ var sounds = {
   session: new Audio("sounds/sessionEnd.ogg"),
   break: new Audio("sounds/breakEnd.ogg")
 };
+var fluidSounds = {
+  session: window.fluid.beep(),
+  break: window.fluid.playSound("Basso")
+}
 var flowStates = { session: 'break', break: 'session' }
 
 function stopTimer(timer, no_sound) {
   no_sound = !!no_sound
 
   clearInterval(timerInterval);
-  if (!no_sound) { sounds[timer].play(); }
+  if (!no_sound) {
+    if (window.fluid) { playFluidSound(timer, 3); } else { sounds[timer].play(); }
+  }
   $('#session').text('00:00');
   if (runningFlow) { startTimer(flowStates[timer]); }
+}
+
+function playFluidSound(timer, times) {
+  for (var i = 0; i < times; i++) { fluidSounds[timer] }
 }
 
 function setTimeLeft(timer) {
